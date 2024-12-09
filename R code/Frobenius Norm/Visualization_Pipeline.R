@@ -4,7 +4,7 @@
   # Find all values associated with a pairwise pipeline comparison pair (e.g. CCS vs CPAC) (several values due to different filters or atlases).
   # Compute the mean and variance of these values for that individual.
 # Across all individuals:
-  # Compute the mean of the individuals means and mean of the variances calculated above.
+  # Compute the average of the individuals means and the average of the variances calculated above.
   # Explains how much variability exists for that comparison pair across individuals.
 
 
@@ -16,7 +16,7 @@ library(grid)
 library(gridExtra)
 
 # Read in data (from working directory)
-df <- read.csv("Results/Frobenius Norm/result_matrix.csv")
+df <- read.csv("R code/Frobenius Norm/result_matrix.csv")
 
 
 #### Calculate mean and variance *within each individual* for pipeline pairwise comparisons ####
@@ -157,7 +157,7 @@ plot2 <- ggplot(variance_data_pipeline, aes(x = Pipeline1, y = Pipeline2, fill =
 plot2
 
 
-#### Save final plots ####
+#### Save final plots (if needed) ####
 # Combine plot1 and plot2 side by side
 combined_plot <- grid.arrange(
   plot1, plot2, 
