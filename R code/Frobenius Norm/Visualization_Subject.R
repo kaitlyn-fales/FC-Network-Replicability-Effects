@@ -3,7 +3,7 @@
 
 
 # Read in data
-df <- read.csv("/Users/xuruizhi/Library/CloudStorage/OneDrive-ThePennsylvaniaStateUniversity/Scanner Heterogeneity Project/Results/Frobenius Norm/result_matrix.csv")
+df <- read.csv("R Code/Frobenius Norm/result_matrix.csv")
 
 # Load packages
 library(dplyr)
