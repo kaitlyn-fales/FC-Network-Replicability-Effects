@@ -1,10 +1,10 @@
 #### Visualization - Frobenius Norm - Atlas ####
 
-# For each individual (ID): 
+# For each individual (ID):
   # Find all values associated with a pairwise atlas comparison pair (e.g. AAL vs CC200) (several values due to different filters or atlases).
   # Compute the mean and variance of these values for that individual.
 # Across all individuals:
-  # Compute the mean of the individuals means and mean of the variances calculated above.
+  # Compute the average of individuals means and the average of variances calculated above.
   # Explains how much variability exists for that comparison pair across individuals.
 
 
@@ -16,7 +16,7 @@ library(grid)
 library(gridExtra)
 
 # Read in data (from working directory)
-df <- read.csv("Results/Frobenius Norm/result_matrix.csv")
+df <- read.csv("R Code/Frobenius Norm/result_matrix.csv")
 
 
 #### Calculate mean and variance *within each individual* for atlas pairwise comparisons ####
@@ -157,7 +157,7 @@ plot2 <- ggplot(variance_data_atlas, aes(x = Atlas1, y = Atlas2, fill = Variance
 plot2
 
 
-#### Save final plots ####
+#### Save final plots (if needed) ####
 # Combine plot1 and plot2 side by side
 combined_plot <- grid.arrange(
   arrangeGrob(
