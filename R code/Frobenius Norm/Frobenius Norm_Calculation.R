@@ -1,8 +1,10 @@
+##### The code below calculates the Frobenius Norms #####
+
 # Read in package
 library(dplyr)
 
 # Load data
-df <- read.csv("~/R code/Frobenius Norm/all_combos_dataframe_regressed.csv")
+df <- read.csv("R code/Frobenius Norm/all_combos_dataframe_regressed.csv")
 
 # Apply the inverse Fisher's z-transform to relevant columns
 correlation_columns <- names(df)[7:12] # Columns MPFC.LP_L to LP_R.PCC
@@ -69,7 +71,7 @@ for (i in seq_along(subjects)) {
 results_df <- as.data.frame(results_matrix)
 
 # Save the results to a CSV file
-write.csv(results_df, "~/R code/Frobenius Norm/result_matrix.csv", row.names = FALSE)
+write.csv(results_df, "R code/Frobenius Norm/result_matrix.csv", row.names = FALSE)
 
 # View the first few rows of the results
 head(results_df)
