@@ -53,7 +53,7 @@ length(file_id)
   ## Total of 4*2*6=48 combinations and each combination contains 573 subjects
 
 # set base directory to save the downloaded 56 folders of data (change save path if necessary)
-base_directory <- "Preprocessed Data"
+base_directory <- "Preprocessed_Data"
 
 # define template URL and vectors
 template_url      <- "https://s3.amazonaws.com/fcp-indi/data/Projects/ABIDE_Initiative/Outputs/[pipeline]/[strategy]/[derivative]/[file_identifier]_[derivative].1D"
@@ -119,6 +119,6 @@ bad.test <- read.table("/path/to/your/preferred/location/UCLA_2_0051310_rois_aal
 ## Same issue for UCLA_2_0051310.
 
 # example of a ("GOOD") .1D data (change file path if necessary)
-test.read <- read.table("Preprocessed Data/ccs_filt_noglobal_rois_aal/Caltech_0051475_rois_aal.1D",
+test.read <- read.table("Preprocessed_Data/ccs_filt_noglobal_rois_aal/Caltech_0051475_rois_aal.1D",
                         comment.char = "", header = T)
 
