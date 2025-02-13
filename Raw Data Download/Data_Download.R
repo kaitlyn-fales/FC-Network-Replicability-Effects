@@ -1,10 +1,8 @@
 ##### The following code will download the raw preprocessed data #####
-## For easier access and save time for downloading, the raw preprocessed data is available in 
-
 
 
 #### Change Working Directory if Necessary ####
-#setwd("~/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project")
+setwd("~/FC-Network-Replicability-Effects-main")
 
 
 #### (Install and) Load Packages ####
@@ -22,10 +20,9 @@ curl_download("https://s3.amazonaws.com/fcp-indi/data/Projects/ABIDE_Initiative/
   ## after downloading the original summary spreadsheet, we observed missing FILE_ID values ("no_filename")
   ## however these values can be manually input based on FILE_ID pattern, SUB_ID, and SITE_ID
   ## after manually inputting all missing FILE_ID values in Microsoft Excel
-  ## the updated file is saved as "Summary Data_Fixed.csv" and saved in the "R Code" folder
 
-# read in the fixed summary table (change file path if necessary)
-summary_data <- read.csv("R Code/Summary Data_Fixed.csv", header = TRUE)
+# read in the fixed summary table
+summary_data <- read.csv("Summary_Data_Fixed.csv", header = TRUE)
 
 # filter the data to make it only contain data for control group (DX_GROUP == 2)
 filtered_data <- summary_data %>% filter(DX_GROUP == 2)
@@ -53,7 +50,7 @@ length(file_id)
   ## Total of 4*2*6=48 combinations and each combination contains 573 subjects
 
 # set base directory to save the downloaded 56 folders of data (change save path if necessary)
-base_directory <- "Preprocessed_Data"
+base_directory <- "Raw_Data"
 
 # define template URL and vectors
 template_url      <- "https://s3.amazonaws.com/fcp-indi/data/Projects/ABIDE_Initiative/Outputs/[pipeline]/[strategy]/[derivative]/[file_identifier]_[derivative].1D"
