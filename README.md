@@ -10,7 +10,11 @@ This repository contains all of the information and code required to download th
 
 -----
 
-All of the script files in the repository are set up so that each file can run on its own, with the exception of the few script files that load the raw data directly (metadata.R and the scripts in FC_Network_Generation folder). To run the code and reproduce the results in the paper from start to finish including downloading the data, start from Step 1 below. Please note that the raw data will take a little over one hour to download from the ABIDE website (http://preprocessed-connectomes-project.org/abide/download.html). We do not provide the raw data within this repository as it is not owned by us, and is already publicly available. If you do not wish to download the raw data, you can still reproduce the results by skipping Steps 1 and 2, and starting from Step 3.
+All of the script files in the repository are set up so that each file can run on its own, with the exception of the few script files that load the raw data directly (metadata.R and the scripts in FC_Network_Generation folder). 
+
+To run the code and reproduce the results in the paper from start to finish including downloading the data, start from Step 1 below. Please note that the raw data will take a little over one hour to download from the ABIDE website (http://preprocessed-connectomes-project.org/abide/download.html). We do not provide the raw data within this repository as it is not owned by us, and is already publicly available. 
+
+If you do not wish to download the raw data, you can still reproduce the results by skipping Steps 1 and 2, and starting from Step 3.
 
 ## Step 1: Raw Data Download
 
