@@ -1,6 +1,6 @@
 # Replicability of FC in the DMN Project Repository
  
-This repository contains all of the information and code required to download the data, run the analysis, and reproduce the results from our study on the effects of pipeline, band-pass filtering, and brain parcellation on the replicability of functional brain networks.
+This repository contains all of the information and code required to download the data, run the analysis, and reproduce the results from our study on the effects of pipeline, band-pass filtering, and brain parcellation on the replicability of functional brain networks. **Please note, this repository is still in progress. Thank you for your understanding!**
 
 **Title:** Replicability of Functional Brain Networks: A Study Through the Lens of the Default Mode Network
 
