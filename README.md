@@ -18,6 +18,8 @@ If you do not wish to download the raw data, you can still reproduce the results
 
 ## Step 1: Raw Data Download
 
+First, navigate to the Raw Data Download folder. In that folder is the Data_Download.R script file. To download all of the .1D files from the ABIDE website, run this script file. You may need to update/check your directories before running this file. All the downloaded files should go into the Raw_Data subfolder, and will take about an hour to complete. Once completed, you may move to Step 2. 
+
 ## Step 2: Data Preprocessing
 
 ## Step 3: Analysis
