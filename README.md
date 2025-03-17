@@ -1,6 +1,6 @@
 # Replicability of FC in the DMN Project Repository
  
-This repository contains all of the information and code required to download the data, run the analysis, and reproduce the results from our study on the effects of pipeline, band-pass filtering, and brain parcellation on the replicability of functional brain networks.
+This repository contains all of the information and code required to download the data, run the analysis, and reproduce the results from our study on the effects of pipeline, band-pass filtering, and brain parcellation on the replicability of functional brain networks. **Please note, this repository is still in progress. Thank you for your understanding!**
 
 **Title:** Replicability of Functional Brain Networks: A Study Through the Lens of the Default Mode Network
 
@@ -17,6 +17,8 @@ To run the code and reproduce the results in the paper from start to finish incl
 If you do not wish to download the raw data, you can still reproduce the results by skipping Steps 1 and 2, and starting from Step 3.
 
 ## Step 1: Raw Data Download
+
+First, navigate to the Raw Data Download folder. In that folder is the Data_Download.R script file. To download all of the .1D files from the ABIDE website, run this script file. You may need to update/check your directories before running this file. All the downloaded files should go into the Raw_Data subfolder, and will take about an hour to complete. Once completed, you may move to Step 2. 
 
 ## Step 2: Data Preprocessing
 
