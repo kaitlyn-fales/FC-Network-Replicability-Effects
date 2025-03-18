@@ -1,16 +1,17 @@
 remove(list = ls())
 
-#### change the paths for your local paths ####
-# current folder
-setwd("~/Library/CloudStorage/OneDrive-SharedLibraries-ThePennsylvaniaStateUniversity/Fales, Kaitlyn Rose - Scanner Heterogeneity Project/Correlation_Matrices")
-base_path = "/Users/xuruizhi/Library/CloudStorage/OneDrive-SharedLibraries-ThePennsylvaniaStateUniversity/Fales, Kaitlyn Rose - Scanner Heterogeneity Project/Preprocessed Data"
-# do not put / at the end
+# Set wd to be general repo folder
+#setwd("~/FC-Network-Replicability-Effects")
 
 #### CC400 columns & weights ####
-load("../Metadata/cc400.Rdata")
+load("Data Preprocessing/Metadata/cc400.Rdata")
 meta_lst = meta_cc400
 subfolders = names(meta_cc400)
 rm(meta_cc400)
+
+# Change paths as needed
+base_path = paste0(getwd(),"/Raw Data Download/Raw_Data") # path to raw data 
+setwd(paste0(getwd(),"/Data/Correlation_Matrices")) # current folder to store data
 
 # data based on "DMN ROIs (new)" sheet in "ROI_atlas_labels.xlsx" file.
 DMN.ROI_CC400 <- rep(c("MPFC", "MPFC", "MPFC", "MPFC", "LP_L", "LP_L", "LP_L", "LP_R", "LP_R", "LP_R", "LP_R", "PCC"))
