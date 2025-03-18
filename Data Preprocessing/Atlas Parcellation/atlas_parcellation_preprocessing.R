@@ -14,6 +14,7 @@
 base_directory <- paste0(getwd(),"/Data Preprocessing/Atlas Parcellation")
 
 # Packages
+#install.packages('RNifti')
 library(RNifti)
 
 # Reading in each atlas file and creating a table for the volume within each ROI
@@ -64,7 +65,7 @@ table.tt <- data.frame(table(tt))
 # These values are used for the volume numbers in the ROI_atlas_labels.csv
 #atlas_volumes <- list(aal = table.aal, cc200 = table.cc200, cc400 = table.cc400,
 #                      ez = table.ez, ho = table.ho, tt = table.tt)
-#save(atlas_volumes, file = "atlas_volumes.RData")
+#save(atlas_volumes, file = paste0(base_directory,"/atlas_volumes.RData"))
 
 
 
