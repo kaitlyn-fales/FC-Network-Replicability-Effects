@@ -66,16 +66,16 @@ table.tt <- data.frame(table(tt))
 #                      ez = table.ez, ho = table.ho, tt = table.tt)
 #save(atlas_volumes, file = "atlas_volumes.RData")
 
+
+
+
 ########### Step 2: Overlap calculations ###############################################
-setwd("C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/Atlas Parcellation")
 
-library(RNifti)
-
-# Load CONN atlas
-mpfc <- readNifti("CONN_atlas/rmpfc_65_77_63.nii")
-lp.l <- readNifti("CONN_atlas/rlp_l_65_77_63.nii")
-lp.r <- readNifti("CONN_atlas/rlp_r_65_77_63.nii")
-pcc <- readNifti("CONN_atlas/rpcc_65_77_63.nii")
+# Load resliced CONN atlas - reslicing done in SPM12
+mpfc <- readNifti(paste0(base_directory,"/CONN_Atlas_Resliced/rmpfc_65_77_63.nii"))
+lp.l <- readNifti(paste0(base_directory,"/CONN_Atlas_Resliced/rlp_l_65_77_63.nii"))
+lp.r <- readNifti(paste0(base_directory,"/CONN_Atlas_Resliced/rlp_r_65_77_63.nii"))
+pcc <- readNifti(paste0(base_directory,"/CONN_Atlas_Resliced/rpcc_65_77_63.nii"))
 
 ############# Functions #######
 # Function for finding potential ROI
@@ -101,7 +101,7 @@ get_ROI <- function(atlas,region,prop=0.08){
     overlap[i] <- get_overlap(atlas,region,pot.ROI[i])
   }
   names(overlap) <- as.character(pot.ROI)
-  result <- as.numeric(names(which(overlap >= prop))) # only take ROI with at least 5% overlap
+  result <- as.numeric(names(which(overlap >= prop))) # only take ROI with at least 8% overlap
   
   return(result)
 }
@@ -118,39 +118,29 @@ get_DMN_ROIs <- function(atlas,prop=0.08){
 }
 ###############################
 
-# Load in atlas - AAL
-aal <- readNifti("aal_roi_atlas.nii")
-
+############# Apply functions to get parcels for each atlas with at least 8% overlap with CONN ###########
+# These results are used as the atlas labels found in the ROI_atlas_labels.csv
+# AAL
 get_DMN_ROIs(aal)
 
-# Load in atlas - EZ
-ez <- readNifti("ez_roi_atlas.nii")
-
+# EZ
 get_DMN_ROIs(ez)
 
-# Load in atlas - HO
-ho <- readNifti("ho_roi_atlas.nii")
-
+# HO
 get_DMN_ROIs(ho)
 
-# Load in atlas - TT
-tt <- readNifti("tt_roi_atlas.nii")
-
+# TT
 get_DMN_ROIs(tt)
 
-# Reload CONN atlas with updated bounding box
-mpfc <- readNifti("CONN_atlas/rmpfc_63_75_61.nii")
-lp.l <- readNifti("CONN_atlas/rlp_l_63_75_61.nii")
-lp.r <- readNifti("CONN_atlas/rlp_r_63_75_61.nii")
-pcc <- readNifti("CONN_atlas/rpcc_63_75_61.nii")
+# Reload resliced CONN atlas with updated bounding box for the Craddock atlases
+mpfc <- readNifti(paste0(base_directory,"/CONN_Atlas_Resliced/rmpfc_63_75_61.nii"))
+lp.l <- readNifti(paste0(base_directory,"/CONN_Atlas_Resliced/rlp_l_63_75_61.nii"))
+lp.r <- readNifti(paste0(base_directory,"/CONN_Atlas_Resliced/rlp_r_63_75_61.nii"))
+pcc <- readNifti(paste0(base_directory,"/CONN_Atlas_Resliced/rpcc_63_75_61.nii"))
 
-# Load in atlas - CC200
-cc200 <- readNifti("cc200_roi_atlas.nii")
-
+# CC200
 get_DMN_ROIs(cc200)
 
-# Load in atlas - CC400
-cc400 <- readNifti("cc400_roi_atlas.nii")
-
+# CC400
 get_DMN_ROIs(cc400)
 
