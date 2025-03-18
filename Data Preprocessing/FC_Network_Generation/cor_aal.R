@@ -1,13 +1,17 @@
 remove(list = ls())
-# change paths to your local paths
-setwd("~/Library/CloudStorage/OneDrive-ThePennsylvaniaStateUniversity/Scanner Heterogeneity Project/Correlation_Matrices") # current folder
-base_path = "/Users/hyebin/Library/CloudStorage/OneDrive-ThePennsylvaniaStateUniversity/Scanner Heterogeneity Project/Preprocessed Data" # do not put / at the end
-  
+
+# Set wd to be general repo folder
+#setwd("~/FC-Network-Replicability-Effects")
+
 #### AAL columns & weights ####
-load("../Metadata/aal.Rdata")
+load("Data Preprocessing/Metadata/aal.Rdata")
 meta_lst = meta_aal
 subfolders = names(meta_aal)
 rm(meta_aal)
+
+# Change paths as needed
+base_path = paste0(getwd(),"/Raw Data Download/Raw_Data") # path to raw data 
+setwd(paste0(getwd(),"/Data/Correlation_Matrices")) # current folder to store data
 
 # data based on "DMN ROIs (new)" sheet in "ROI_atlas_labels.xlsx" file.
 DMN.ROI_AAL <- rep(c("MPFC", "MPFC", "LP_L", "LP_R", "LP_R", "PCC", "PCC"))
@@ -33,7 +37,7 @@ rm(Index_AAL, Volume.ROI_AAL)
 all_files = list()
 index=1
 for(index in 1:length(subfolders)){
- all_files[[index]] = paste0(base_path, meta_lst[[index]]$included_files)  # currently all files which do not have any 0 columns in columns related to ROI
+  all_files[[index]] = paste0(base_path, meta_lst[[index]]$included_files)  # currently all files which do not have any 0 columns in columns related to ROI
 }
 
 
