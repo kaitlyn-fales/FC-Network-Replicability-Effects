@@ -1,16 +1,17 @@
 remove(list = ls())
 
-#### change the paths for your local paths ####
-# current folder
-setwd("~/Library/CloudStorage/OneDrive-SharedLibraries-ThePennsylvaniaStateUniversity/Fales, Kaitlyn Rose - Scanner Heterogeneity Project/Correlation_Matrices")
-base_path = "/Users/xuruizhi/Library/CloudStorage/OneDrive-SharedLibraries-ThePennsylvaniaStateUniversity/Fales, Kaitlyn Rose - Scanner Heterogeneity Project/Preprocessed Data"
-# do not put / at the end
+# Set wd to be general repo folder
+#setwd("~/FC-Network-Replicability-Effects")
 
 #### HO columns & weights ####
-load("../Metadata/ho.Rdata")
+load("Data Preprocessing/Metadata/ho.Rdata")
 meta_lst = meta_ho
 subfolders = names(meta_ho)
 rm(meta_ho)
+
+# Change paths as needed
+base_path = paste0(getwd(),"/Raw Data Download/Raw_Data") # path to raw data 
+setwd(paste0(getwd(),"/Data/Correlation_Matrices")) # current folder to store data
 
 # data based on "DMN ROIs (new)" sheet in "ROI_atlas_labels.xlsx" file.
 DMN.ROI_HO <- rep(c("MPFC", "LP_L", "LP_R", "PCC", "PCC"))
