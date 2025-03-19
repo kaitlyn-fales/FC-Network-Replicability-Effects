@@ -50,6 +50,20 @@ The final step of preprocessing is to take the output .Rdata files from Step 2.3
 
 ## Step 3: Analysis
 
+All steps for data analysis are completed from the Analysis folder. 
+
+### Step 3.1: Linear Mixed Effects Modeling
+
+The first step of the analysis is to construct and run the linear mixed effects models for each edge. Navigate to the LMM subfolder, and run the "lmm_edges.R" script. This will run all of the edgewise full LMMs discussed and reported on in the paper, including diagnostic plots. The data used in this step is "processed_data.RData" which is the long-form dataframe produced at the end of Step 2. The code for the additive LMMs, the LMMs excluding the NIAK pipeline, and models including MR scanner brand are found in the Supplementary Materials section. 
+
+Next, navigate to the "regress_ranef.R" script and run it. This will run the same full LMMs for each edge, estimate the random site effect as well as the random effect of subject nested within site, and subtract the estimated effect from the Fisher's *z*-transformed correlation coefficients (the response variables). The output of this script is "processed_data_ranef.RData", and is used in the next steps. 
+
+### Step 3.2: UMAP
+
+### Step 3.3: Frobenius Norm
+
+### Step 3.4: ComBat Harmonization (Yu et al. 2018) and Analysis
+
 ## Step 4: Figures
 
 ## Optional: Supplementary Materials
