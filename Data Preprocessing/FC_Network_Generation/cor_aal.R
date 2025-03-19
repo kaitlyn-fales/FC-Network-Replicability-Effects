@@ -2,7 +2,7 @@ remove(list = ls())
 
 # Set wd to be general repo folder
 #setwd("~/FC-Network-Replicability-Effects")
-  
+
 #### AAL columns & weights ####
 load("Data Preprocessing/Metadata/aal.Rdata")
 meta_lst = meta_aal
@@ -37,7 +37,7 @@ rm(Index_AAL, Volume.ROI_AAL)
 all_files = list()
 index=1
 for(index in 1:length(subfolders)){
- all_files[[index]] = paste0(base_path, meta_lst[[index]]$included_files)  # currently all files which do not have any 0 columns in columns related to ROI
+  all_files[[index]] = paste0(base_path, meta_lst[[index]]$included_files)  # currently all files which do not have any 0 columns in columns related to ROI
 }
 
 

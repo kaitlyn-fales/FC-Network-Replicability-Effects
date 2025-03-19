@@ -1,0 +1,1 @@
+These R scripts will produce the functional connectivity correlation matrices for each corresponding atlas. The resulting .Rdata files are found within the Correlation_Matrices subfolder within the Data folder. 
