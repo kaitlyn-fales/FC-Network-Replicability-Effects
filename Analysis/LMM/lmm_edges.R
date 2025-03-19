@@ -188,7 +188,7 @@ fullmod_results <- list(MPFC.LP_L = MPFC.LP_L_result,
                         LP_R.PCC = LP_R.PCC_result)
 
 # Saving as .RData
-save(fullmod_results, file = "LMM_fullmodel_results.RData")
+#save(fullmod_results, file = "Analysis/LMM/LMM_fullmodel_results.RData")
 ##############################################################################
 
 
