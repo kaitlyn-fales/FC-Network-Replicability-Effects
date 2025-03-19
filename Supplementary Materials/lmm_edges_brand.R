@@ -21,7 +21,7 @@ load("Data/processed_data.RData")
 ######### Including scanner brand ############################################
 
 # Load in scanning parameters
-scan_param <- read_excel("Functional Scan Parameters/scan_param_summary.xlsx")
+scan_param <- read_excel("Supplementary Materials/scan_param_summary.xlsx")
 
 scan_param <- scan_param[,1:2]
 colnames(scan_param) <- c("site","scanner")
@@ -134,7 +134,7 @@ fullmod_results_brand <- list(MPFC.LP_L = MPFC.LP_L_result,
                         LP_R.PCC = LP_R.PCC_result)
 
 # Saving as .RData
-save(fullmod_results_brand, file = "LMM_fullmodel_results_brand.RData")
+#save(fullmod_results_brand, file = "Supplementary Materials/LMM_fullmodel_results_brand.RData")
 ##############################################################################
 
 
