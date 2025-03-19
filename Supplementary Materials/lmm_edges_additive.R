@@ -1,3 +1,21 @@
+######### Linear mixed effect modeling of preprocessing pipelines ############
+
+# Install packages
+#install.packages('lme4')
+#install.packages('lmerTest')
+#install.packages('tidyverse')
+
+# Packages
+library(lme4)
+library(lmerTest)
+library(tidyverse)
+
+# Set directories as needed
+#setwd("~/FC-Network-Replicability-Effects")
+
+# Load preprocessed data
+load("Data/processed_data.RData")
+
 ######### Additive linear mixed models for each edge #########################
 # Additive LMM with explanatory variables of pipeline, filter, and atlas
 # and a random intercept for each unique ID.
@@ -165,9 +183,7 @@ rownames(results) <- c("(Intercept)",levels(df$pipeline)[1:3],
                        levels(df$filter)[1],levels(df$atlas)[1:5])
 
 # Write csv file with results
-write.csv(results, 
-          file = "C:/Users/kaitl/OneDrive - The Pennsylvania State University/
-          Scanner Heterogeneity Project/preproc_combo_lmm_result.csv")
+#write.csv(results, file = "Supplementary Materials/lmm_additive_result.csv")
 
 
 # Get results from ANOVA as well
@@ -180,7 +196,6 @@ anova_results <- round(cbind(DF,MPFC.LP_L_anova,
                              LP_R.PCC_anova), digits = 4)
 
 # Write csv with results
-write.csv(anova_results, 
-          file = "C:/Users/kaitl/OneDrive - The Pennsylvania State University/
-          Scanner Heterogeneity Project/preproc_combo_lmm_anova_result.csv")
+#write.csv(anova_results, file = "Supplementary Materials/lmm_additive_anova_result.csv")
 ##############################################################################
+
