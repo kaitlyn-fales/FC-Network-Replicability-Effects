@@ -1,7 +1,12 @@
 ######## Regressing out nested random (batch) effect ####################
 
-# Set working directory
-setwd("C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project")
+# Set working directory as needed
+#setwd("~/FC-Network-Replicability-Effects")
+
+# Install packages
+#install.packages('stringr')
+#install.packages('lme4')
+#install.packages('lmerTest')
 
 # Packages
 library(stringr)
@@ -9,7 +14,7 @@ library(lme4)
 library(lmerTest)
 
 # Load data
-load("all_combos_dataframe.RData")
+load("Data/processed_data.RData")
 
 # Function to extract random effects and prepare them to be in merged df
 extract_random_effect <- function(mdl){
@@ -110,5 +115,5 @@ dat.final <- data.frame(MPFC.LP_L,MPFC.LP_R[,6],LP_L.LP_R[,6],
 colnames(dat.final) <- c(colnames(MPFC.LP_L),edges[-1])
 
 # Exporting
-save(dat.final, file = "all_combos_dataframe_regressed.RData")
+save(dat.final, file = "Data/processed_data_ranef.RData")
 
