@@ -1,15 +1,24 @@
 ######### Linear mixed effect modeling of preprocessing pipelines ############
 
+# Install packages
+#install.packages('lme4')
+#install.packages('lmerTest')
+#install.packages('tidyverse')
+#install.packages('readxl')
+
 # Packages
-library(stringr)
 library(lme4)
 library(lmerTest)
 library(tidyverse)
 library(readxl)
 
+# Set directories as needed
+#setwd("~/FC-Network-Replicability-Effects")
+
+# Load preprocessed data
+load("Data/processed_data.RData")
 
 ######### Including scanner brand ############################################
-load("all_combos_dataframe.RData")
 
 # Load in scanning parameters
 scan_param <- read_excel("Functional Scan Parameters/scan_param_summary.xlsx")
