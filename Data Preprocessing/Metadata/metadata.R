@@ -1,12 +1,15 @@
+#install.packages('foreach')
+#install.packages('dplyr')
 library(foreach)
 library(dplyr)
 remove(list = ls())
 
 
-#### change the paths for your local paths ####
-setwd("/Users/xuruizhi/Library/CloudStorage/OneDrive-ThePennsylvaniaStateUniversity/Scanner Heterogeneity Project/Metadata")
+#### change the paths for your local paths as needed ####
+#setwd("~/FC-Network-Replicability-Effects")
+base_path = paste0(getwd(),"/Raw Data Download/Raw_Data") # path to raw data
+setwd(paste0(getwd(),"/Data Preprocessing/Metadata"))
 source("summarize_metadata.R")
-base_path = "/Users/xuruizhi/Library/CloudStorage/OneDrive-ThePennsylvaniaStateUniversity/Scanner Heterogeneity Project/Preprocessed Data"
 # do not put / at the end
 
 
