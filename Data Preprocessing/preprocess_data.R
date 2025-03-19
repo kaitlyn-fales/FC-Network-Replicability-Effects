@@ -1,18 +1,19 @@
 ### Data Preprocessing - Creating a long form dataframe from the FC matrices ###
 
+# Install packages
+#install.packages('stringr')
+#install.packages('tidyverse')
+#install.packages('readxl')
+
 # Packages
 library(stringr)
-library(lme4)
-library(lmerTest)
 library(tidyverse)
 library(readxl)
 
 ######### Setting things up - prepping data ##################################
-# Base directory that contains all .RData
-base_dir <- "~/The Pennsylvania State University - Fales, Kaitlyn Rose - Scanner Heterogeneity Project/Correlation_Matrices"
-
-# Base directory (Kaitlyn's local machine)
-base_dir <- "C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/Correlation_Matrices"
+# Base directory that contains all .RData, change if needed
+#setwd("~/FC-Network-Replicability-Effects")
+base_dir <- paste0(getwd(),"/Data/Correlation_Matrices")
 
 # Full paths to the files
 file_list <- list.files(path = base_dir, pattern = "\\.RData$", full.names = TRUE, ignore.case = TRUE)
@@ -29,7 +30,7 @@ colnames(preproc_combo_df) <- c("pipeline","filter","atlas")
 edges <- c("MPFC.LP_L","MPFC.LP_R","LP_L.LP_R","MPFC.PCC","LP_L.PCC","LP_R.PCC")
 
 # Incorporating metadata to get ID column - pulling directory and files
-metadata_dir <- c("C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/Metadata")
+metadata_dir <- paste0(getwd(),"/Data Preprocessing/Metadata")
 metadata_files <- list.files(path = metadata_dir, pattern = "\\.RData$", 
                              full.names = TRUE, ignore.case = TRUE)
 
@@ -59,8 +60,11 @@ extract_meta <- function(combo, atlas) {
   # Split the string into just the file name (get rid of path)
   included_files <- t(data.frame(strsplit(included_files, split = "/")))[,3]
   
-  # Split the string by getting rid of everything after the ID
-  included_files <- gsub("_rois.*","\\1",included_files)
+  # Split the string to get rid of combination
+  included_files <- gsub(paste0(combo,"_"),"",included_files)
+  
+  # Split the string by getting rid of everything after the ID - get rid of file extension
+  included_files <- gsub("\\..*", "",included_files)
   
   # Combine CMU_a and CMU_b to just be CMU (small sample size)
   included_files <- gsub("CMU_a","CMU",included_files)
@@ -170,7 +174,6 @@ df <- df[complete.cases(df),]
 
 # Export final dataframe to reference later
 save(df, 
-     file = "C:/Users/kaitl/OneDrive - The Pennsylvania State University/
-     Scanner Heterogeneity Project/all_combos_dataframe.RData")
+     file = paste0(getwd(),"/Data/processed_data.RData"))
 
 
