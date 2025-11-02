@@ -33,6 +33,8 @@ cc200 <- readNifti(paste0(base_directory,"/ABIDE_Atlases/cc200_roi_atlas.nii.gz"
 cc400 <- readNifti(paste0(base_directory,"/ABIDE_Atlases/cc400_roi_atlas.nii.gz"))
 
 # DOS atlas
+# Download link: https://fcp-indi.s3.amazonaws.com/data/Projects/ABIDE_Initiative/Resources/dos160_roi_atlas.nii.gz
+dos <- readNifti(paste0(base_directory,"/ABIDE_Atlases/dos160_roi_atlas.nii.gz"))
 
 # EZ atlas
 # Download link: https://fcp-indi.s3.amazonaws.com/data/Projects/ABIDE_Initiative/Resources/ez_roi_atlas.nii.gz
@@ -46,13 +48,11 @@ ho <- readNifti(paste0(base_directory,"/ABIDE_Atlases/ho_roi_atlas.nii.gz"))
 # Download link: https://fcp-indi.s3.amazonaws.com/data/Projects/ABIDE_Initiative/Resources/tt_roi_atlas.nii.gz
 tt <- readNifti(paste0(base_directory,"/ABIDE_Atlases/tt_roi_atlas.nii.gz"))
 
-table.tt <- data.frame(table(tt))
-
 # Load CONN atlas
-networks <- readNifti("CONN_atlas/rnetworks_65_77_63.nii")
+networks <- readNifti(paste0(base_directory,"/CONN_Atlas_Resliced/rnetworks_65_77_63.nii"))
 
 # Loading CONN networks names table
-networks_table <- read.table("CONN_atlas/networks_table.txt", sep = ",", header = T)
+networks_table <- read.table(paste0(base_directory,"/CONN_Atlas_Resliced/networks_table.txt"), sep = ",", header = T)
 
 ############# Functions #######
 # Function for finding potential ROI
@@ -80,44 +80,38 @@ get_roi_list <- function(atlas){
 ###############################
 
 # Load in atlas - AAL
-aal <- readNifti("aal_roi_atlas.nii")
 aal_roi <- get_roi_list(aal)
 save(aal_roi, file = "aal_roi.RData")
 
 # Load in atlas - EZ
-ez <- readNifti("ez_roi_atlas.nii")
 ez_roi <- get_roi_list(ez)
 save(ez_roi, file = "ez_roi.RData")
 
 # Load in atlas - HO
-ho <- readNifti("ho_roi_atlas.nii")
 ho_roi <- get_roi_list(ho)
 save(ho_roi, file = "ho_roi.RData")
 
 # Load in atlas - TT
-tt <- readNifti("tt_roi_atlas.nii")
 tt_roi <- get_roi_list(tt)
 save(tt_roi, file = "tt_roi.RData")
 
 
 #### CC200 and CC400
 # Reload CONN atlas with updated bounding box
-networks <- readNifti("CONN_atlas/rnetworks_63_75_61.nii")
+networks <- readNifti(paste0(base_directory,"/CONN_Atlas_Resliced/rnetworks_63_75_61.nii"))
 
 # Load in atlas - CC200
-cc200 <- readNifti("cc200_roi_atlas.nii")
 cc200_roi <- get_roi_list(cc200)
 save(cc200_roi, file = "cc200_roi.RData")
 
 # Load in atlas - CC400
-cc400 <- readNifti("cc400_roi_atlas.nii")
 cc400_roi <- get_roi_list(cc400)
 save(cc400_roi, file = "cc400_roi.RData")
 
 
 #### DOS 160
 # Reload CONN atlas with updated bounding box
-networks <- readNifti("CONN_atlas/rnetworks_61_73_61.nii")
+networks <- readNifti(paste0(base_directory,"/CONN_Atlas_Resliced/rnetworks_61_73_61.nii"))
 
 # Load in atlas - DOS
 dos <- readNifti("dos160_roi_atlas.nii")
@@ -215,6 +209,6 @@ split_list <- lapply(split_list, function(x) {
 })
 
 # Write to Excel (each element = one sheet)
-write_xlsx(split_list, path = "aal_parcels.xlsx")
+write_xlsx(split_list, path = paste0(base_directory,"/aal_parcels.xlsx"))
 
 
