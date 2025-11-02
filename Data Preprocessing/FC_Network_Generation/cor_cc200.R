@@ -1,15 +1,19 @@
 remove(list = ls())
-# change paths to your local paths
-setwd("C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/Correlation_Matrices") # current folder
-base_path = "C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/Preprocessed Data" # do not put / at the end
-atlas_path = "C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/Atlas Parcellation"
 
-#### AAL columns & weights ####
-load("../Metadata/cc200.Rdata")
+# Set wd to be general repo folder
+#setwd("~/FC-Network-Replicability-Effects")
+
+
+#### CC200 columns & weights ####
+load("Data Preprocessing/Metadata/cc200.Rdata")
 meta_lst = meta_cc200
 subfolders = names(meta_cc200)
 rm(meta_cc200)
 
+# Change paths as needed
+base_path = paste0(getwd(),"/Raw Data Download/Raw_Data") # path to raw data 
+altas_path = paste0(getwd(),"/Data Preprocessing/Atlas Parcellation")
+setwd(paste0(getwd(),"/Data/Correlation_Matrices")) # current folder to store data output
 
 # Load atlas file which contains parcellation information and weights
 load(paste(atlas_path,"cc200_roi.RData",sep = "/"))

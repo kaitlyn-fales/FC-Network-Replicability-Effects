@@ -10,9 +10,9 @@ subfolders = names(meta_aal)
 rm(meta_aal)
 
 # Change paths as needed
-setwd(paste0(getwd(),"/Data/Correlation_Matrices")) # current folder to store data output
 base_path = paste0(getwd(),"/Raw Data Download/Raw_Data") # path to raw data 
 altas_path = paste0(getwd(),"/Data Preprocessing/Atlas Parcellation")
+setwd(paste0(getwd(),"/Data/Correlation_Matrices")) # current folder to store data output
 
 # Load atlas file which contains parcellation information and weights
 load(paste(atlas_path,"aal_roi.RData",sep = "/"))
