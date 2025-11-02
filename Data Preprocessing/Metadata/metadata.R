@@ -1,24 +1,23 @@
-#install.packages('foreach')
-#install.packages('dplyr')
 library(foreach)
 library(dplyr)
 remove(list = ls())
 
 
-#### change the paths for your local paths as needed ####
-#setwd("~/FC-Network-Replicability-Effects")
-base_path = paste0(getwd(),"/Raw Data Download/Raw_Data") # path to raw data
-setwd(paste0(getwd(),"/Data Preprocessing/Metadata"))
+#### change the paths for your local paths ####
+setwd("C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/Metadata")
 source("summarize_metadata.R")
+base_path = "C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/Preprocessed Data"
+atlas_path = "C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/Atlas Parcellation"
 # do not put / at the end
 
 
 ###
-generate_metafiles = function(base_path, subfolders, col_index) {
+generate_metafiles = function(base_path, subfolders, col_index, included_file_ID) {
   meta_lst = foreach(index = 1:length(subfolders)) %do% {
     subfolder = subfolders[index]
     cat("subfolder:", subfolder, "\n")
-    out = summarize_metadata(base_path = base_path, subfolder = subfolder, col_index = col_index)
+    out = summarize_metadata(base_path = base_path, subfolder = subfolder, 
+                             col_index = col_index, included_file_ID = included_file_ID)
     assign(paste0("meta_", subfolder), out)
   }
   
@@ -27,6 +26,9 @@ generate_metafiles = function(base_path, subfolders, col_index) {
 }
 
 
+# Load QA/QC inclusion criteria file with IDs
+summary_file <- read.csv("Summary_Data_Filter_Inclusion.csv")
+included_ID <- summary_file$FILE_ID
 
 
 ##### AAL
@@ -34,13 +36,11 @@ aal_subfolders <- c("ccs_filt_noglobal_rois_aal", "ccs_nofilt_noglobal_rois_aal"
                     "cpac_filt_noglobal_rois_aal", "cpac_nofilt_noglobal_rois_aal", 
                     "dparsf_filt_noglobal_rois_aal", "dparsf_nofilt_noglobal_rois_aal", 
                     "niak_filt_noglobal_rois_aal", "niak_nofilt_noglobal_rois_aal")
-Index_AAL <- rep(c("X.2611", "X.2612", 
-                   "X.5201", 
-                   "X.5202", "X.6222", 
-                   "X.6301", "X.6302"), 
-                 each = 1)
+load(paste(atlas_path,"aal_roi.RData",sep = "/"))
+Index_AAL <- unique(unlist(sapply(aal_roi, "[[", "col_index")))
 
-meta_aal = generate_metafiles(base_path = base_path, subfolders = aal_subfolders, col_index = Index_AAL)
+meta_aal = generate_metafiles(base_path = base_path, subfolders = aal_subfolders, 
+                              col_index = Index_AAL, included_file_ID = included_ID)
 save(meta_aal, file = "aal.Rdata")
 
 
@@ -49,13 +49,11 @@ ez_subfolders <- c("ccs_filt_noglobal_rois_ez", "ccs_nofilt_noglobal_rois_ez",
                    "cpac_filt_noglobal_rois_ez", "cpac_nofilt_noglobal_rois_ez", 
                    "dparsf_filt_noglobal_rois_ez", "dparsf_nofilt_noglobal_rois_ez", 
                    "niak_filt_noglobal_rois_ez", "niak_nofilt_noglobal_rois_ez")
-Index_EZ <- rep(c("X.25", "X.26", 
-                  "X.51", 
-                  "X.52", "X.86", 
-                  "X.67", "X.68"), 
-                each = 1)
+load(paste(atlas_path,"ez_roi.RData",sep = "/"))
+Index_EZ <- unique(unlist(sapply(ez_roi, "[[", "col_index")))
 
-meta_ez = generate_metafiles(base_path = base_path, subfolders = ez_subfolders, col_index = Index_EZ)
+meta_ez = generate_metafiles(base_path = base_path, subfolders = ez_subfolders, 
+                             col_index = Index_EZ, included_file_ID = included_ID)
 save(meta_ez, file = "ez.Rdata")
 
 
@@ -64,13 +62,11 @@ ho_subfolders <- c("ccs_filt_noglobal_rois_ho", "ccs_nofilt_noglobal_rois_ho",
                    "cpac_filt_noglobal_rois_ho", "cpac_nofilt_noglobal_rois_ho", 
                    "dparsf_filt_noglobal_rois_ho", "dparsf_nofilt_noglobal_rois_ho", 
                    "niak_filt_noglobal_rois_ho", "niak_nofilt_noglobal_rois_ho")
-Index_HO <- rep(c("X.2501", 
-                  "X.2202", 
-                  "X.2201", 
-                  "X.3101", "X.3102"), 
-                each = 1)
+load(paste(atlas_path,"ho_roi.RData",sep = "/"))
+Index_HO <- unique(unlist(sapply(ho_roi, "[[", "col_index")))
 
-meta_ho = generate_metafiles(base_path = base_path, subfolders = ho_subfolders, col_index = Index_HO)
+meta_ho = generate_metafiles(base_path = base_path, subfolders = ho_subfolders, 
+                             col_index = Index_HO, included_file_ID = included_ID)
 save(meta_ho, file = "ho.Rdata")
 
 
@@ -79,13 +75,11 @@ tt_subfolders <- c("ccs_filt_noglobal_rois_tt", "ccs_nofilt_noglobal_rois_tt",
                    "cpac_filt_noglobal_rois_tt", "cpac_nofilt_noglobal_rois_tt", 
                    "dparsf_filt_noglobal_rois_tt", "dparsf_nofilt_noglobal_rois_tt", 
                    "niak_filt_noglobal_rois_tt", "niak_nofilt_noglobal_rois_tt")
-Index_TT <- rep(c("X.5201", "X.5202",
-                  "X.3702",
-                  "X.3501", "X.4101",
-                  "X.4501", "X.4502"),
-                each = 1)
+load(paste(atlas_path,"tt_roi.RData",sep = "/"))
+Index_TT <- unique(unlist(sapply(tt_roi, "[[", "col_index")))
 
-meta_tt = generate_metafiles(base_path = base_path, subfolders = tt_subfolders, col_index = Index_TT)
+meta_tt = generate_metafiles(base_path = base_path, subfolders = tt_subfolders, 
+                             col_index = Index_TT, included_file_ID = included_ID)
 save(meta_tt, file = "tt.Rdata")
 
 
@@ -94,13 +88,11 @@ cc200_subfolders <- c("ccs_filt_noglobal_rois_cc200", "ccs_nofilt_noglobal_rois_
                       "cpac_filt_noglobal_rois_cc200", "cpac_nofilt_noglobal_rois_cc200", 
                       "dparsf_filt_noglobal_rois_cc200", "dparsf_nofilt_noglobal_rois_cc200", 
                       "niak_filt_noglobal_rois_cc200", "niak_nofilt_noglobal_rois_cc200")
-Index_CC200 <- rep(c("X.51", "X.109", "X.139", 
-                     "X.82", "X.97", "X.114", 
-                     "X.14", "X.166", "X.170", 
-                     "X.3", "X.19", "X.163", "X.174"), 
-                   each = 1)
+load(paste(atlas_path,"cc200_roi.RData",sep = "/"))
+Index_CC200 <- unique(unlist(sapply(cc200_roi, "[[", "col_index")))
 
-meta_cc200 = generate_metafiles(base_path = base_path, subfolders = cc200_subfolders, col_index = Index_CC200)
+meta_cc200 = generate_metafiles(base_path = base_path, subfolders = cc200_subfolders, 
+                                col_index = Index_CC200, included_file_ID = included_ID)
 save(meta_cc200, file = "cc200.Rdata")
 
 
@@ -109,14 +101,24 @@ cc400_subfolders <- c("ccs_filt_noglobal_rois_cc400", "ccs_nofilt_noglobal_rois_
                       "cpac_filt_noglobal_rois_cc400", "cpac_nofilt_noglobal_rois_cc400", 
                       "dparsf_filt_noglobal_rois_cc400", "dparsf_nofilt_noglobal_rois_cc400", 
                       "niak_filt_noglobal_rois_cc400", "niak_nofilt_noglobal_rois_cc400")
-Index_CC400 <- rep(c("X.84", "X.142", "X.232", "X.264", 
-                     "X.6", "X.120", "X.189", 
-                     "X.26", "X.135", "X.252", "X.341", 
-                     "X.193"), 
-                   each = 1)
+load(paste(atlas_path,"cc400_roi.RData",sep = "/"))
+Index_CC400 <- unique(unlist(sapply(cc400_roi, "[[", "col_index")))
 
-meta_cc400 = generate_metafiles(base_path = base_path, subfolders = cc400_subfolders, col_index = Index_CC400)
+meta_cc400 = generate_metafiles(base_path = base_path, subfolders = cc400_subfolders, 
+                                col_index = Index_CC400, included_file_ID = included_ID)
 save(meta_cc400, file = "cc400.Rdata")
+
+##### DOS
+dos_subfolders <- c("ccs_filt_noglobal_rois_dosenbach160", "ccs_nofilt_noglobal_rois_dosenbach160", 
+                    "cpac_filt_noglobal_rois_dosenbach160", "cpac_nofilt_noglobal_rois_dosenbach160", 
+                    "dparsf_filt_noglobal_rois_dosenbach160", "dparsf_nofilt_noglobal_rois_dosenbach160", 
+                    "niak_filt_noglobal_rois_dosenbach160", "niak_nofilt_noglobal_rois_dosenbach160")
+load(paste(atlas_path,"dos_roi.RData",sep = "/"))
+Index_DOS <- unique(unlist(sapply(dos_roi, "[[", "col_index")))
+
+meta_dos = generate_metafiles(base_path = base_path, subfolders = dos_subfolders, 
+                              col_index = Index_DOS, included_file_ID = included_ID)
+save(meta_dos, file = "dos.Rdata")
 
 
 # investigate and record files in the excel spreadsheet (sample code)

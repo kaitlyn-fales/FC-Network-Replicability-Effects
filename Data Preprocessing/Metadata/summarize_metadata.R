@@ -1,4 +1,4 @@
-summarize_metadata = function(base_path, subfolder, col_index){
+summarize_metadata = function(base_path, subfolder, col_index, included_file_ID){
   
   ## check for each file in sub_folder, whether there exist any columns in col_index with all zeros
   ## summarize nrow, any NA
@@ -15,6 +15,14 @@ summarize_metadata = function(base_path, subfolder, col_index){
   
   rm_files = all_files[ind_rm]
   all_files = all_files[-ind_rm]
+  
+  # QA/QC protocol
+  # Include subjects who are R handed (or L->R switch) and who satisfy QA/QC standards
+  combined_pattern <- paste(included_file_ID, collapse = "|")
+  ind_incl <- grep(combined_pattern, x = all_files)
+  
+  rm_files = all_files[-ind_incl]
+  all_files = all_files[ind_incl]
   
   # load each file and check whether there is any columns with all zero entries
   pb = progress::progress_bar$new(total=length(all_files))
