@@ -4,11 +4,13 @@
 #install.packages('stringr')
 #install.packages('tidyverse')
 #install.packages('readxl')
+#install.packages('reshape2')
 
 # Packages
 library(stringr)
 library(tidyverse)
 library(readxl)
+library(reshape2)
 
 ######### Setting things up - prepping data ##################################
 # Base directory that contains all .RData, change if needed
@@ -18,19 +20,25 @@ base_dir <- paste0(getwd(),"/Data/Correlation_Matrices")
 # Full paths to the files
 file_list <- list.files(path = base_dir, pattern = "\\.RData$", full.names = TRUE, ignore.case = TRUE)
 
-# Extract list of names of all 48 preprocessing combinations
+# Extract list of names of all 56 preprocessing combinations
 combinations <- gsub("\\..*","", basename(file_list))
 
-# Make a df containing the 48 preprocessing combos to use later
+# Make a df containing the 56 preprocessing combos to use later
 preproc_combo_df <- t(data.frame(strsplit(combinations, split = "_")))[,c(1:2,5)] # cols of interest
 rownames(preproc_combo_df) <- NULL
 colnames(preproc_combo_df) <- c("pipeline","filter","atlas")
 
-# Make list of edges in FC network
-edges <- c("MPFC.LP_L","MPFC.LP_R","LP_L.LP_R","MPFC.PCC","LP_L.PCC","LP_R.PCC")
+# Extract the within network edge labels to use as reference later
+# Pull the name of the file into generic form
+load(file_list[1])
+temp <- get(combinations[1])
+cor_matrix <- temp[[1]]
+
+# Network names
+networks <- unique(str_extract(colnames(cor_matrix), "^[^\\.]+"))
 
 # Incorporating metadata to get ID column - pulling directory and files
-metadata_dir <- paste0(getwd(),"/Data Preprocessing/Metadata")
+metadata_dir <- paste0(getwd(),"/Preprocessed Data/Metadata")
 metadata_files <- list.files(path = metadata_dir, pattern = "\\.RData$", 
                              full.names = TRUE, ignore.case = TRUE)
 
@@ -45,9 +53,11 @@ extract_meta <- function(combo, atlas) {
   if (type == "aal") {meta <- meta_aal} else {
     if  (type == "cc200") {meta <- meta_cc200} else {
       if  (type == "cc400") {meta <- meta_cc400} else {
-        if  (type == "ez") {meta <- meta_ez} else {
-          if  (type == "ho") {meta <- meta_ho} 
-          else {meta <- meta_tt
+        if (type == "dosenbach160") {meta <- meta_dos} else {
+          if  (type == "ez") {meta <- meta_ez} else {
+            if  (type == "ho") {meta <- meta_ho} 
+            else {meta <- meta_tt
+            }
           }
         }
       }
@@ -60,11 +70,8 @@ extract_meta <- function(combo, atlas) {
   # Split the string into just the file name (get rid of path)
   included_files <- t(data.frame(strsplit(included_files, split = "/")))[,3]
   
-  # Split the string to get rid of combination
-  included_files <- gsub(paste0(combo,"_"),"",included_files)
-  
-  # Split the string by getting rid of everything after the ID - get rid of file extension
-  included_files <- gsub("\\..*", "",included_files)
+  # Split the string by getting rid of everything after the ID
+  included_files <- gsub("_rois.*","\\1",included_files)
   
   # Combine CMU_a and CMU_b to just be CMU (small sample size)
   included_files <- gsub("CMU_a","CMU",included_files)
@@ -99,38 +106,53 @@ extract_meta <- function(combo, atlas) {
   return(included_files)
 }
 
-# Function to take in a list from 1 of 48 combos, vectorize and Fisher z-transform
+# Function to take in a list from 1 of 56 combos, vectorize and Fisher z-transform
 fisher_transform <- function(cor_matrices){
-  # Empty matrix to store result
-  result <- matrix(NA, nrow = length(cor_matrices), ncol = 6)
   
-  # Take each FC matrix and vectorize the upper triangle
-  for (j in 1:length(cor_matrices)){
-    r.vector <- cor_matrices[[j]]*upper.tri(cor_matrices[[j]], diag = F)
-    result[j,] <- r.vector[r.vector != 0]
+  for (k in 1:length(networks)){
+    network_ind <- grep(networks[k], colnames(cor_matrices[[1]])) # same column/row names for all cor_matrices
+    
+    # Empty matrix to store result
+    result <- matrix(NA, ncol = length(network_ind)*(length(network_ind)-1)/2, 
+                     nrow = length(cor_matrices))
+    
+    # Take each FC matrix and vectorize the upper triangle
+    for (j in 1:length(cor_matrices)){
+      cor_matrix <- cor_matrices[[j]][network_ind,network_ind]
+      r.vector <- cor_matrix*upper.tri(cor_matrix, diag = F)
+      result[j,] <- r.vector[r.vector != 0]
+    }
+    
+    # Fisher's z-transform and assign as network
+    result <- atanh(result)
+    ind <- c(1:ncol(result))
+    colnames(result) <- paste(networks[k], ind, sep = "_")
+    assign(networks[k], result)
   }
   
-  # Fisher's z-transform
-  result <- atanh(result)
+  results <- cbind(DefaultMode,SensoriMotor,Visual,Salience,DorsalAttention,
+                   FrontoParietal,Language)
   
   # Return output
-  return(result)
+  return(results)
 }
 
 # Create empty matrix to store results from for loop (will need to get rid of extra NA at end)
-df <- matrix(NA, nrow = 571*48, ncol = 11)
-colnames(df) <- c("pipeline","filter","atlas","site","ID",edges)
+df <- matrix(NA, nrow = 283*56, ncol = 59)
 
 # Starting running count for filling in df
 count <- 0
 
-# For loop to run across all 48 combinations to make master dataframe
+# For loop to run across all 56 combinations to make master dataframe
 for (i in 1:length(file_list)){
   # Load in individual file
   load(file_list[i])
   
   # Pull the name of the file into generic form
   temp <- get(combinations[i])
+  
+  # Network names
+  networks <- unique(str_extract(colnames(temp[[1]]), "^[^\\.]+"))
   
   # Apply the fisher_transform function
   fisher_result <- fisher_transform(temp)
@@ -155,18 +177,24 @@ for (i in 1:length(file_list)){
 # Convert final matrix to dataframe
 df <- as.data.frame(df)
 
+# Add in column names
+colnames(df) <- c("pipeline","filter","atlas",colnames(dat_combo)[4:59])
+
+# Get rid of CMU as site since we only have one entry
+df <- df[!grepl("CMU", df$site),]
+
 # Convert preprocessing effects as factors
 df$pipeline <- factor(df$pipeline, levels = c("cpac","dparsf","niak","ccs"))
 df$filter <- factor(df$filter)
-df$atlas <- factor(df$atlas, levels = c("cc200","cc400","ez","ho","tt","aal"))
+df$atlas <- gsub("dosenbach160","dos160",df$atlas)
+df$atlas <- factor(df$atlas, levels = c("cc200","cc400","dos160","ez","ho","tt","aal"))
 df$site <- factor(df$site)
 df$ID <- factor(df$ID)
-df$MPFC.LP_L <- as.numeric(df$MPFC.LP_L)
-df$MPFC.LP_R <- as.numeric(df$MPFC.LP_R)
-df$LP_L.LP_R <- as.numeric(df$LP_L.LP_R)
-df$MPFC.PCC <- as.numeric(df$MPFC.PCC)
-df$LP_L.PCC <- as.numeric(df$LP_L.PCC)
-df$LP_R.PCC <- as.numeric(df$LP_R.PCC)
+
+# Convert network columns to numeric
+df[, 6:ncol(df)] <- lapply(df[, 6:ncol(df)], as.numeric)
+
+# Check structure
 str(df)
 
 # Get rid of extra NA because of making the resulting empty df larger than needed
@@ -174,6 +202,6 @@ df <- df[complete.cases(df),]
 
 # Export final dataframe to reference later
 save(df, 
-     file = paste0(getwd(),"/Data/processed_data.RData"))
+     file = paste0(getwd(),"/Data/processed_data_network.RData"))
 
 
