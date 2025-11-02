@@ -2,12 +2,17 @@ library(foreach)
 library(dplyr)
 remove(list = ls())
 
+#### Change Working Directory if Necessary ####
+#setwd("~/FC-Network-Replicability-Effects")
+
+# Set atlas parcellation directory path
+base_directory <- getwd()
 
 #### change the paths for your local paths ####
-setwd("C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/Metadata")
+setwd(paste0(base_directory,"/Data Preprocessing/Metadata"))
 source("summarize_metadata.R")
-base_path = "C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/Preprocessed Data"
-atlas_path = "C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/Atlas Parcellation"
+base_path = paste0(base_directory,"/Raw Data Download/Raw_Data")
+atlas_path = paste0(base_directory,"/Data Preprocessing/Atlas Parcellation")
 # do not put / at the end
 
 
