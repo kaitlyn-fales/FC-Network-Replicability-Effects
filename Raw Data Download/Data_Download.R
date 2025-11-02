@@ -70,7 +70,7 @@ for (pipeline in pipelines) {
         url <- gsub("\\[strategy\\]", strategy, url)
         url <- gsub("\\[derivative\\]", derivative, url)
         url <- gsub("\\[file_identifier\\]", toString(file_id), url)
-        custom_file_name <- paste0(pipeline, "_", strategy, "_", derivative, "_", toString(file_id), ".1D")
+        custom_file_name <- paste0(toString(file_id),"_",derivative,".1D")
         download_path <- file.path(folder_path, custom_file_name)
         # Print a message if the download fails and when download completes
         tryCatch({
