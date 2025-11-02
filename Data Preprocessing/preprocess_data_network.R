@@ -28,15 +28,6 @@ preproc_combo_df <- t(data.frame(strsplit(combinations, split = "_")))[,c(1:2,5)
 rownames(preproc_combo_df) <- NULL
 colnames(preproc_combo_df) <- c("pipeline","filter","atlas")
 
-# Extract the within network edge labels to use as reference later
-# Pull the name of the file into generic form
-load(file_list[1])
-temp <- get(combinations[1])
-cor_matrix <- temp[[1]]
-
-# Network names
-networks <- unique(str_extract(colnames(cor_matrix), "^[^\\.]+"))
-
 # Incorporating metadata to get ID column - pulling directory and files
 metadata_dir <- paste0(getwd(),"/Preprocessed Data/Metadata")
 metadata_files <- list.files(path = metadata_dir, pattern = "\\.RData$", 
