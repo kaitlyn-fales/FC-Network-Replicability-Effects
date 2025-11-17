@@ -1,4 +1,5 @@
 ############# Baseline by non-parametric bootstrap #########
+# Import portrait divergence functions from github: https://github.com/bagrow/network-portrait-divergence
 
 # Packages
 library(abind)
@@ -8,13 +9,13 @@ library(doParallel)
 library(reticulate)
 
 # Working directory
-setwd("C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project")
+#setwd("~/FC-Network-Replicability-Effects")
 
-# Load in baseline df
-load("all_combos_dataframe_network_baseline.RData")
+# Load in df
+load("Data/processed_data_network_baseline.RData")
 within_network <- df_baseline
 
-load("all_combos_dataframe_between_network_baseline.RData")
+load("Data/processed_data_between_network_baseline.RData")
 between_network <- df_baseline
 
 # Merge df
@@ -40,7 +41,7 @@ dim(df_array) # final dimensions of array are (subject, combination, network edg
 rm(list = setdiff(ls(), "df_array"))
 
 # Load upper triangle labels to reconstruct correlation matrix
-load("Results/upper_triangle_labels.RData")
+load("Analysis/Intra-Subject Variability/upper_triangle_labels.RData")
 
 # Get number of cores in machine for parallel computing
 n_cores <- detectCores()
@@ -135,10 +136,10 @@ calc_pdiv <- function(col, subject_data){
   idx1 <- unlist(strsplit(combo_pair[1], "\\."))
   idx2 <- unlist(strsplit(combo_pair[2], "\\."))
   
-  # Import for use within parallel process
+  # Import for use within parallel process - CHANGE PATHS AS NEEDED
   nx <- reticulate::import("networkx")
   pdiv <- reticulate::import_from_path("portrait_divergence", 
-                                       path = "C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project/R Code")
+                                       path = "~/FC-Network-Replicability-Effects/Analysis/Intra-Subject Variability")
   
   data1 <- subject_data %>%
     filter(pipeline == idx1[1] & atlas == idx1[2]) %>%
@@ -213,7 +214,7 @@ for (b in 1:B){
     df_boot[, 4:ncol(df_boot)] <- lapply(df_boot[, 4:ncol(df_boot)], as.numeric)
     
     # Export bootstrapped data
-    save(df_boot, file = paste0("Results/Bootstrap Data/all_combos_dataframe_bootstrap",b,".RData"))
+    save(df_boot, file = paste0("Analysis/Intra-Subject Variability/Bootstrap Data/processed_data_bootstrap",b,".RData"))
     
     # Rename
     df <- df_boot
@@ -266,7 +267,7 @@ for (b in 1:B){
     results_norm = do.call(rbind, results_norm)
     
     # Save the results to a CSV file
-    write.csv(results_norm, file = paste0("Results/Bootstrap Results/frobenius_norm_bootstrap",b,".csv"), row.names = FALSE)
+    write.csv(results_norm, file = paste0("Analysis/Intra-Subject Variability/Bootstrap Results/frobenius_norm_bootstrap",b,".csv"), row.names = FALSE)
     
     # Change format of results from list to df
     results_pdiv = results[seq(2, length(results), by = 2)]
@@ -274,7 +275,7 @@ for (b in 1:B){
     results_pdiv = do.call(rbind, results_pdiv)
     
     # Save the results to a CSV file
-    write.csv(results_pdiv, file = paste0("Results/Bootstrap Results/pdiv_bootstrap",b,".csv"), row.names = FALSE)
+    write.csv(results_pdiv, file = paste0("Analysis/Intra-Subject Variability/Bootstrap Results/pdiv_bootstrap",b,".csv"), row.names = FALSE)
 
 }
 
