@@ -270,13 +270,11 @@ rm(list = ls())
 ######### Full linear mixed model with no NIAK pipeline #########################
 
 # Set wd and load data
-setwd("C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project")
-
-# Load in df
-load("all_combos_dataframe_network.RData")
+#setwd("~/FC-Network-Replicability-Effects")
+load("Data/processed_data_network.RData")
 within_network <- df
 
-load("all_combos_dataframe_between_network.RData")
+load("Data/processed_data_between_network.RData")
 between_network <- df
 
 # Merge df
@@ -348,27 +346,19 @@ network_aov_results <- as.data.frame(network_aov_results)
 # Add in between networks mean column for comparison
 network_aov_results$between_network_mean <- rowMeans(aov_results[,-c(1:54)])
 
-# Export results
-write.csv(network_aov_results, file = "Results/lmm_remove_niak_results.csv",
-          row.names = T)
-
 ################################################################################
 
 # Clear environment
 rm(list = ls())
 
 ######### LMM with additive effects ONLY #########################
-# Additive LMM with explanatory variables of pipeline, filter, and atlas
-# and a random intercept for each unique ID.
 
 # Set wd and load data
-setwd("C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project")
-
-# Load in df
-load("all_combos_dataframe_network.RData")
+#setwd("~/FC-Network-Replicability-Effects")
+load("Data/processed_data_network.RData")
 within_network <- df
 
-load("all_combos_dataframe_between_network.RData")
+load("Data/processed_data_between_network.RData")
 between_network <- df
 
 # Merge df
@@ -434,10 +424,6 @@ network_aov_results <- as.data.frame(network_aov_results)
 # Add in between networks mean column for comparison
 network_aov_results$between_network_mean <- rowMeans(aov_results[,-c(1:54)])
 
-# Export results
-write.csv(network_aov_results, file = "Results/lmm_additive_results.csv",
-          row.names = T)
-
 ################################################################################
 
 # Clear environment
@@ -446,13 +432,11 @@ rm(list = ls())
 ######### Full linear mixed model plus scanner brand #########################
 
 # Set wd and load data
-setwd("C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heterogeneity Project")
-
-# Load in df
-load("all_combos_dataframe_network.RData")
+#setwd("~/FC-Network-Replicability-Effects")
+load("Data/processed_data_network.RData")
 within_network <- df
 
-load("all_combos_dataframe_between_network.RData")
+load("Data/processed_data_between_network.RData")
 between_network <- df
 
 # Merge df
@@ -461,7 +445,7 @@ df <- merge(within_network, between_network, by = c("pipeline","filter","atlas",
 rm(list = setdiff(ls(), "df"))
 
 # Load in scanning parameters
-scan_param <- read_excel("Functional Scan Parameters/scan_param_summary.xlsx")
+scan_param <- read_excel("Analysis/LMM/scan_param_summary.xlsx")
 
 scan_param <- scan_param[,1:2]
 colnames(scan_param) <- c("site","scanner")
@@ -529,9 +513,5 @@ network_aov_results <- as.data.frame(network_aov_results)
 
 # Add in between networks mean column for comparison
 network_aov_results$between_network_mean <- rowMeans(aov_results[,-c(1:54)])
-
-# Export results
-write.csv(network_aov_results, file = "Results/lmm_brand_results.csv",
-          row.names = T)
 
 ################################################################################
