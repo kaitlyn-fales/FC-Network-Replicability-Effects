@@ -6,11 +6,18 @@ setwd("C:/Users/kaitl/OneDrive - The Pennsylvania State University/Scanner Heter
 # Package
 library(neuroCombat)
 
-# Load dataframe
-load("all_combos_dataframe.RData")
+# Load in regressed df
+load("all_combos_dataframe_network.RData")
+within_network <- df
+
+load("all_combos_dataframe_between_network.RData")
+between_network <- df
+
+# Merge df
+df <- merge(within_network, between_network, by = c("pipeline","filter","atlas","site","ID"))
 
 # Prepare data in format needed for Combat
-dat <- df[, grep("MPFC|LP_R|PCC", colnames(df))] # separate FC vectors
+dat <- df[,-c(1:5)] # separate FC vectors
 dat <- t(dat) # transpose so that matrix is pxn
 batch <- df[,"site"] # batch variable for site id
 
