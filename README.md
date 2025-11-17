@@ -62,9 +62,5 @@ Next, navigate to the "regress_ranef.R" script and run it. This will run the sam
 
 ### Step 3.4: ComBat Harmonization (Yu et al. 2018) and Analysis
 
-## Step 4: Figures
-
-## Optional: Supplementary Materials
-
 
 
