@@ -74,6 +74,12 @@ The script within the UMAP folder uses the .RData files with the "regressed" suf
 
 ### Step 3.5: Intra-Subject Variability
 
+There are several scripts within this subfolder, and while each script can be run on it's own (with some caveats), this is the recommended order:
+1. Run "get_upper_tri_labels.R" to obtain the "upper_triangle_labels.RData" file. This script gets the labels and ordering of the FC network so that the vectorized version can be turned back into it's original FC matrix in the correct order. This is needed for portrait divergence calculations.
+2. Run "norm_pdiv_data_calculation.R" to obtain the output .csv files for Frobenius norm and portrait divergence analysis of intra-subject variability on the observed data. This will take 10 or so minutes to complete. 
+3. Run the "norm_pdiv_baseline_bootstrap.R" script, which performs the baseline bootstrapping procedure. The results from this procedure will go into the Bootstrap Data and Bootstrap Results subfolders. This script takes about 15-16 hours to complete, depending on the number of cores available for parallel computing. You may skip this step if you wish, as the final baseline curves obtained from this process are in the Baseline Curves subfolder.
+4. Run both "frobenius_norm_bootstrap_comparison.R", which reproduces *Figures 5 and 8* and "pdiv_bootstrap_comparison.R", which reproduces *Figures 6 and 9*. If you choose to skip step 3, then you will need to also skip portions of the code in each of these files, as they will not run properly without the raw bootstrap results. The code chunks to skip are commented in the code for reference. If you do step 3, then you will also be able to reproduce *Figures S5-S6* that show how we arrive at the final baseline curves. 
+
 ### Step 3.6: ComBat Harmonization (Yu et al. 2018) and Analysis
 
 The script within the ComBat folder performs ComBat harmonization, and produces the output data files with the "combat" suffix found within the Data folder. Note there are two dataframes produced. The first is after ComBat harmonization, which controls for the site batch effect alone. The second .RData file has the suffix "combat_regressed" because it is the result after fitting the LMMs for each edge, estimating the random effect for the repeated measures of each subject, and subtracting that out from the response variable. The results from fitting the edgewise LMMs after ComBat harmonization reproduces the result shown in *Table 7*. 
