@@ -52,23 +52,35 @@ All steps for data analysis are completed from the Analysis folder.
 
 ### Step 3.1: Exploratory Analysis
 
-The script within the Exporatory Analysis subfolder is used to construct all three heatmaps in Figure 1 of the manuscript, as well as the randomly selected mean FC networks plotted in Figure 2. Also included is the code for Figure S1 in the supplement. 
+The script within the Exporatory Analysis subfolder is used to construct all three heatmaps in *Figure 1* of the manuscript, as well as the randomly selected mean FC networks plotted in *Figure 2.* Also included is the code for *Figure S1* in the supplement. 
 
 ### Step 3.2: Linear Mixed Effects Modeling
 
-The main step of the analysis is to construct and run the linear mixed effects models for each edge. Navigate to the LMM subfolder, and run the "lmm.R" script. This will run all of the edgewise full LMMs discussed and reported on in the paper, and produces the outputs for Tables 4-5 in the manuscript and Tables S1-S3 in the Supplmentary Materials. The data used in this step is "processed_data_network.RData" and "processed_data_between_network.RData" which are the long-form dataframes produced at the end of Step 2. 
+The main step of the analysis is to construct and run the linear mixed effects models for each edge. Navigate to the LMM subfolder, and run the "lmm.R" script. This will run all of the edgewise full LMMs discussed and reported on in the paper, and produces the outputs for *Tables 4-5* in the manuscript and *Tables S1-S3* in the Supplmentary Materials. The data used in this step is "processed_data_network.RData" and "processed_data_between_network.RData" which are the long-form dataframes produced at the end of Step 2. 
 
 Other outputs of the "lmm.R" script include: the .RData files that estimate and control for (or subtract out from the response for) the random effects of site and subject, which are the .RData files with the suffix "regressed", and the .RData files that control for the estimated fixed effects for use in the baseline bootstrapping procedure later, which are the files with the suffix "baseline". These output files are in the Data folder, for use in later steps. 
+
+The "pipeline_atlas_interaction_dmn.R" script examines the interaction effect between pipeline and atlas for the edges in the DMN, and reproduces *Figure 3.* 
 
 The remaining steps can be performed in any order, as they use the outputs from Step 3.2. These outputs are all loaded in the Data folder already, and you may jump directly to these steps. We present them here in the order they are discussed within the paper. 
 
 ### Step 3.3: Functional Network Block Structure
 
+The script within the Functional Network Block Structure folder uses the .RData files with the "regressed" suffix, and reproduces *Table 6.*
+
 ### Step 3.4: UMAP
+
+The script within the UMAP folder uses the .RData files with the "regressed" suffix, and reproduces *Figures 4 and 7* in the manuscript, as well as *Figures S2-S3* in the Supplementary Materials.
 
 ### Step 3.5: Intra-Subject Variability
 
 ### Step 3.6: ComBat Harmonization (Yu et al. 2018) and Analysis
+
+The script within the ComBat folder performs ComBat harmonization, and produces the output data files with the "combat" suffix found within the Data folder. Note there are two dataframes produced. The first is after ComBat harmonization, which controls for the site batch effect alone. The second .RData file has the suffix "combat_regressed" because it is the result after fitting the LMMs for each edge, estimating the random effect for the repeated measures of each subject, and subtracting that out from the response variable. The results from fitting the edgewise LMMs after ComBat harmonization reproduces the result shown in *Table 7*. 
+
+The regressed data file is what is then used in the ComBat UMAP results. These results reproduce *Figure S4*. 
+
+
 
 
 
