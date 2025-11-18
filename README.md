@@ -1,6 +1,6 @@
 # Replicability of FC in the Seven Resting-State Brain Networks Project Repository
  
-This repository contains all of the information and code required to download the data, run the analysis, and reproduce the results from our study on the effects of pipeline, band-pass filtering, and brain parcellation on the replicability of functional brain networks. **Please note, a revision of this repository is in progress. Thank you for your understanding!**
+This repository contains all of the information and code required to download the data, run the analysis, and reproduce the results from our study on the effects of pipeline, band-pass filtering, and brain parcellation on the replicability of functional brain networks.
 
 **Title:** Replicability of Functional Brain Networks: A Study Through the Lens of Seven Resting-State Networks
 
@@ -44,23 +44,31 @@ To complete this step, run the R script for each atlas (e.g., "cor_aal.R"), and 
 
 ### Step 2.4: Creation of long-form dataframe
 
-The final step of preprocessing is to take the output .Rdata files from Step 2.3 and combine them all into one long format dataframe for analysis. To complete this step, you need only run the "preprocess_data.R" file, and the resulting .RData file is located in the Data folder. This script compiles all of the output files into a single dataframe, cleans the data formatting up, and applies Fisher's *z*-transformation to the correlation coefficients. 
+The final step of preprocessing is to take the output .Rdata files from Step 2.3 and combine them all into one long format dataframe for analysis. To complete this step, you need only run the "preprocess_data_network.R"  and "preprocess_data_between_network.R" scripts, and the resulting .RData files are located in the Data folder. These scripts compile all of the output files into a single dataframe, one for each file, cleans the data formatting up, and applies Fisher's *z*-transformation to the correlation coefficients. There is one file for the network edges *within* functional networks, and the other for network edges that are *between* two functional networks. 
 
 ## Step 3: Analysis
 
 All steps for data analysis are completed from the Analysis folder. 
 
-### Step 3.1: Linear Mixed Effects Modeling
+### Step 3.1: Exploratory Analysis
 
-The first step of the analysis is to construct and run the linear mixed effects models for each edge. Navigate to the LMM subfolder, and run the "lmm_edges.R" script. This will run all of the edgewise full LMMs discussed and reported on in the paper, including diagnostic plots. The data used in this step is "processed_data.RData" which is the long-form dataframe produced at the end of Step 2. The code for the additive LMMs, the LMMs excluding the NIAK pipeline, and models including MR scanner brand are found in the Supplementary Materials section. 
+The script within the Exporatory Analysis subfolder is used to construct all three heatmaps in Figure 1 of the manuscript, as well as the randomly selected mean FC networks plotted in Figure 2. Also included is the code for Figure S1 in the supplement. 
 
-Next, navigate to the "regress_ranef.R" script and run it. This will run the same full LMMs for each edge, estimate the random site effect as well as the random effect of subject nested within site, and subtract the estimated effect from the Fisher's *z*-transformed correlation coefficients (the response variables). The output of this script is "processed_data_ranef.RData", and is used in the next steps. 
+### Step 3.2: Linear Mixed Effects Modeling
 
-### Step 3.2: UMAP
+The main step of the analysis is to construct and run the linear mixed effects models for each edge. Navigate to the LMM subfolder, and run the "lmm.R" script. This will run all of the edgewise full LMMs discussed and reported on in the paper, and produces the outputs for Tables 4-5 in the manuscript and Tables S1-S3 in the Supplmentary Materials. The data used in this step is "processed_data_network.RData" and "processed_data_between_network.RData" which are the long-form dataframes produced at the end of Step 2. 
 
-### Step 3.3: Frobenius Norm
+Other outputs of the "lmm.R" script include: the .RData files that estimate and control for (or subtract out from the response for) the random effects of site and subject, which are the .RData files with the suffix "regressed", and the .RData files that control for the estimated fixed effects for use in the baseline bootstrapping procedure later, which are the files with the suffix "baseline". These output files are in the Data folder, for use in later steps. 
 
-### Step 3.4: ComBat Harmonization (Yu et al. 2018) and Analysis
+The remaining steps can be performed in any order, as they use the outputs from Step 3.2. These outputs are all loaded in the Data folder already, and you may jump directly to these steps. We present them here in the order they are discussed within the paper. 
+
+### Step 3.3: Functional Network Block Structure
+
+### Step 3.4: UMAP
+
+### Step 3.5: Intra-Subject Variability
+
+### Step 3.6: ComBat Harmonization (Yu et al. 2018) and Analysis
 
 
 
