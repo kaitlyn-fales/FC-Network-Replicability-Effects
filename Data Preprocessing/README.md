@@ -6,4 +6,6 @@ The contents of this folder are as follows:
 
 **Metadata:** This folder contains the R scripts for extracting the metadata from the raw data files, including a spreadsheet with the flagged data files that needed to be removed from the rest of the analysis. 
 
-**preprocess_data.R**: This R script takes the output matrices in the Correlation_Matrices subfolder, and constructs a long-format dataframe out of them for use in the Analysis step. 
+**preprocess_data_between_network.R**: This R script takes the output matrices in the Correlation_Matrices subfolder, and constructs a long-format dataframe out of them for use in the Analysis step. This is the **between** network version.
+
+**preprocess_data_network.R**: This R script takes the output matrices in the Correlation_Matrices subfolder, and constructs a long-format dataframe out of them for use in the Analysis step. This is the **within** network version. 
