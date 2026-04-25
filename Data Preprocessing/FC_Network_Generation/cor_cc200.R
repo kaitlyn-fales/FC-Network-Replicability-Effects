@@ -12,7 +12,7 @@ rm(meta_cc200)
 
 # Change paths as needed
 base_path = paste0(getwd(),"/Raw Data Download/Raw_Data") # path to raw data 
-altas_path = paste0(getwd(),"/Data Preprocessing/Atlas Parcellation")
+atlas_path = paste0(getwd(),"/Data Preprocessing/Atlas Parcellation")
 setwd(paste0(getwd(),"/Data/Correlation_Matrices")) # current folder to store data output
 
 # Load atlas file which contains parcellation information and weights
