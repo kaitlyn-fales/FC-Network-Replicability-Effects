@@ -29,7 +29,7 @@ rownames(preproc_combo_df) <- NULL
 colnames(preproc_combo_df) <- c("pipeline","filter","atlas")
 
 # Incorporating metadata to get ID column - pulling directory and files
-metadata_dir <- paste0(getwd(),"/Preprocessed Data/Metadata")
+metadata_dir <- paste0(getwd(),"/Data Preprocessing/Metadata")
 metadata_files <- list.files(path = metadata_dir, pattern = "\\.RData$", 
                              full.names = TRUE, ignore.case = TRUE)
 
