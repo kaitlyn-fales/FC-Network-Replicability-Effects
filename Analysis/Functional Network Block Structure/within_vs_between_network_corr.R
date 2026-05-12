@@ -10,7 +10,7 @@ library(tidyverse)
 load("Analysis/Exploratory Analysis/hclust_cuts.RData")
 
 # Reduce to 28 cluster options since filtering does not have pronounced effect
-clust <- cut_avg[!grepl("nofilt",cut_avg$combination),]
+clust <- cut_avg[!grepl("_filt",cut_avg$combination),]
 
 # Extract list of names of all 28 preprocessing combinations
 combos <- clust$combination

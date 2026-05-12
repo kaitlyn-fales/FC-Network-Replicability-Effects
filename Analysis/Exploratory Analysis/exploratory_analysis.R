@@ -214,7 +214,7 @@ rm(list = ls())
 load("Analysis/Exploratory Analysis/hclust_cuts.RData")
 
 # Reduce to 28 cluster options since filtering does not have pronounced effect
-clust <- cut_avg[!grepl("nofilt",cut_avg$combination),]
+clust <- cut_avg[!grepl("_filt",cut_avg$combination),]
 
 # Base directory for correlation matrices
 #setwd("~/FC-Network-Replicability-Effects")
